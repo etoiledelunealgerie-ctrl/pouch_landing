@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<!-- ====================================================================
+  TODO(brand): كل شيء بعلامة TODO هو مكان لازم تعبيه بمعلوماتك الحقيقية
+  (اسم العلامة، الدومين، الأسعار، الصور). ما فماش أي بيانات وهمية مخفية —
+  كل placeholder مكتوب بالحرف باش ما ينلخلطش مع بيانات حقيقية بالغلط.
+==================================================================== -->
+<title>باقات الحقائب الصغيرة — LUNARIS </title>
+<meta name="description" content="حقائب صغيرة (Pouch Bags) صناعة يدوية — اختاري باقتك من 10 إلى 100 قطعة. الدفع عند الاستلام والتوصيل لكل ولايات الجزائر.">
+<link rel="canonical" href="https://TODO-YOUR-DOMAIN.example/">
+<meta property="og:type" content="product">
+<meta property="og:title" content="باقات الحقائب الصغيرة — LUNARIS: اسم العلامة">
+<meta property="og:description" content="حقائب صغيرة صناعة يدوية بالجملة — اختاري الباقة المناسبة لك.">
+<meta property="og:url" content="https://TODO-YOUR-DOMAIN.example/">
+<meta property="og:image" content="https://TODO-YOUR-DOMAIN.example/img/main-bag.jpg">
+<meta property="og:site_name" content="LUNARIS">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="باقات الحقائب الصغيرة">
+<meta name="twitter:description" content="اختاري باقتك من 10 إلى 100 قطعة — صناعة يدوية.">
+<meta name="twitter:image" content="https://TODO-YOUR-DOMAIN.example/img/main-bag.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+
+<!-- TODO(schema): عدّلي الأسعار والصور هنا بعد ما تربطي المخزون الحقيقي -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Product","name":"باقات الحقائب الصغيرة — TODO: اسم العلامة","image":["https://TODO-YOUR-DOMAIN.example/img/main-bag.jpg"],"description":"حقائب صغيرة صناعة يدوية، تُباع بالباقة (10 إلى 100 قطعة).","brand":{"@type":"Brand","name":"TODO: اسم العلامة"},"offers":{"@type":"AggregateOffer","priceCurrency":"DZD","lowPrice":"0","highPrice":"0","offerCount":"10","availability":"https://schema.org/InStock","url":"https://TODO-YOUR-DOMAIN.example/"}}
+</script>
+
+<!-- ====================================================================
+  Meta Pixel — base code (فارغ، نعبيه بعد ما نربط CAPI)
+  راجعي الملاحظة العامة في PDF: fbp/fbc الحقيقيين ما يتولدوش غير من متصفح
+  حقيقي بعد ما الـ Pixel يخدم فعلاً — curl ما يقدرش يولدهم.
+==================================================================== -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', 'TODO_PIXEL_ID'); // <-- حطي الـ Pixel ID هنا
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" alt=""
+src="https://www.facebook.com/tr?id=TODO_PIXEL_ID&ev=PageView&noscript=1"/></noscript>
+
+<!-- ربط ملف CSS الخارجي -->
+<link rel="stylesheet" href="the-style.css">
+</head>
+<body>
+<!-- ==========================================================================================
+  TODO: اسم العلامة — صفحة باقات الحقائب الصغيرة
+  هذه الصفحة ذاتية الاحتواء. الفورم يبعث فقط عبر fetch() إلى /api/order —
+  ما فماش ربط مباشر بأي ووردبريس/ووكومرس. اربطيها بـ Cloudflare Pages
+  Function + Supabase الخاصين بيك (نفس نمط PDF/Lunaris).
+=========================================================================================== -->
+<div id="lms-pp" dir="rtl">
+  <div class="pp-silk s1"></div><div class="pp-silk s2"></div><div class="pp-silk s3"></div>
+  <div class="pp-bubbles" id="pp-bubbles" aria-hidden="true"></div>
+
+  <div class="pp-wrap">
+
+    <!-- ===== HERO ===== -->
+    <div class="pp-top">
+      <div class="pp-brand"><span>LUNARIS</span></div>
+      <div class="pp-cod">✓ الدفع عند الاستلام</div>
+    </div>
+
+    <div class="pp-hero-grid">
+      <div>
+        <span class="pp-eyebrow">✦ صناعة يدوية 100%</span>
+        <h1>حقيبتك <em>بالكمية اللي تحتاجيها</em></h1>
+        <p class="pp-lead">حقائب صغيرة (Pouch Bags) مصنوعة يدوياً — اختاري الباقة المناسبة لك من 10 إلى 100 قطعة.</p>
+        <div class="pp-cta-row">
+          <button type="button" class="pp-btn main" id="pp-cta1">اطلبي الآن</button>
+          <button type="button" class="pp-btn soft" id="pp-cta2">شوفي القطع</button>
+        </div>
+      </div>
+
+      <div class="pp-stage">
+        <div class="pp-frame">
+          <img id="pp-stage-img" src="img/main-bag.jpg" alt="حقيبة صغيرة صناعة يدوية" width="820" height="1025" decoding="async" fetchpriority="high">
+          <div class="pp-shine"></div>
+        </div>
+        <div class="pp-tag"><b id="pp-tag-price">TODO دج</b><span id="pp-tag-note">اختاري الباقة تحت</span></div>
+        <!-- نقاط تنقل بين الـ 4 صور لكل صندوق مصغّر -->
+        <div class="pp-stage-dots" id="pp-stage-dots" aria-hidden="true"></div>
+      </div>
+
+      <!-- ===== 15 صندوق مصغّر، كل صندوق فيه 4 صور — اضغطي عليه باش يبان في الصورة الكبيرة ===== -->
+      <div class="pp-thumbs" id="pp-thumbs" aria-label="اختاري مجموعة الصور"></div>
+
+    </div>
+
+    <!-- ===== اختاري الباقة ===== -->
+    <div class="pp-sec rv" id="pp-picks-sec">
+      <h2>اختاري الباقة</h2>
+      <div class="pp-sub">باقة وحدة تكفي — السعر يتبدّل مباشرة حسب عدد القطع.</div>
+      <div class="pp-picks" id="pp-picks"><!-- تتولد بالجافاسكريبت من BUNDLES --></div>
+
+      <div class="pp-sub" style="margin-top:18px">أو اختاري كمية أخرى:</div>
+      <div class="pp-bundles-more" id="pp-bundles-more"><!-- تتولد بالجافاسكريبت من CUSTOM_BUNDLES --></div>
+    </div>
+
+    <!-- ===== المزايا ===== -->
+    <div class="pp-sec rv">
+      <h2>علاش تختاري حقائبنا</h2>
+      <div class="pp-sub">صناعة يدوية بعناية، من الجزائر لعندك.</div>
+      <div class="pp-bens">
+        <div class="pp-ben"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l2.2 5.6L20 9.5l-4 4.1 1 6-5-2.9-5 2.9 1-6-4-4.1 5.8-.9z"/></svg></div><b>صناعة يدوية</b><span>كل قطعة تُخاط يدوياً بعناية فائقة.</span></div>
+        <div class="pp-ben"><div class="ic"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 16 0"/><path d="M4 12a8 8 0 0 0 16 0"/><path d="M12 4v16"/></svg></div><b>قماش مختار</b><span>أقمشة متينة ومريحة اللمس.</span></div>
+        <div class="pp-ben"><div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="12" rx="2"/><path d="M8 7V5h8v2"/><path d="M3 12h18"/></svg></div><b>باقات مرنة</b><span>من 10 إلى 100 قطعة حسب حاجتك.</span></div>
+        <div class="pp-ben"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 21c-4.4-3.1-7-6-7-9.5A7 7 0 0 1 19 11.5c0 3.5-2.6 6.4-7 9.5z"/></svg></div><b>ألوان تدوم</b><span>خياطة وألوان تتحمل الاستعمال اليومي.</span></div>
+        <div class="pp-ben"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 13h11V6H3z"/><path d="M14 9h4l3 4v3h-7z"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></svg></div><b> 9mach interieure antifuite  </b><span>قماش داخلي مانع التسرب</span></div>
+      </div>
+    </div>
+
+    <!-- ===== التفاصيل ===== -->
+    <div class="pp-sec rv">
+      <h2>شوفي التفاصيل</h2>
+      <div class="pp-sub">اضغطي على إحدى الصور تحت باش تبان في الصورة الكبيرة، أو اضغطي عليها باش تكبّريها.</div>
+      <div class="pp-detail" id="pp-detail">
+          <img id="pp-detail-img" src="img/detail-1.jpg" alt="تفاصيل الحقيبة الصغيرة" width="560" height="700" loading="lazy" decoding="async">
+        <div class="cap" id="pp-detail-cap">تفاصيل القماش والخياطة</div>
+      </div>
+      <div class="pp-detail-thumbs" id="pp-detail-thumbs" aria-label="اختاري صورة التفاصيل"><!-- تتولد بالجافاسكريبت من DETAIL_IMAGES --></div>
+      <div class="pp-specs">
+        <span>✦ صناعة يدوية</span><span>✦ قماش متين</span><span>✦ خياطة محكمة</span><span>✦ قماش داخلي مانع التسرب</span>
+      </div>
+    </div>
+
+    <!-- ===== ثقة ===== -->
+    <div class="pp-sec rv">
+      <div class="pp-trust">
+        <div class="pp-stars">★★★★★</div>
+        <b>TODO: عدد الزبائن الراضين</b>
+        <span>TODO: اسم العلامة — صناعة يدوية جزائرية</span>
+        <div class="pp-badges">
+          <div><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>الدفع عند الاستلام</div>
+          <div><svg viewBox="0 0 24 24"><path d="M3 13h11V6H3z"/><path d="M14 9h4l3 4v3h-7z"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></svg>توصيل 58 ولاية</div>
+          <div><svg viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4.4-3 7.7-7 9-4-1.3-7-4.6-7-9V6l7-3z"/></svg>جودة مضمونة</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== الطلب ===== -->
+    <div class="pp-order rv" id="pp-order">
+      <h2>تأكيد الطلب 🎀</h2>
+      <div class="pp-sub">اكتبي معلوماتك ونتصلو بيك للتأكيد — ما تخلّصي والو الآن.</div>
+      <div class="pp-chosen"><span id="pp-chosen-name">باقة 10 قطع</span><b id="pp-chosen-price">TODO دج</b></div>
+
+      <!--
+        TODO(backend): هذا الفورم ما يبعثش لأي ووردبريس. عند submit، الجافاسكريبت
+        يبعث fetch() POST JSON إلى /api/order (Cloudflare Pages Function).
+        اربطي هاذي الدالة بـ Supabase الخاص بيك — راجعي functions/api/order.js
+        و supabase-schema.sql المرفوقين.
+      -->
+      <form id="pp-order-form" novalidate>
+
+        <input type="hidden" id="pp-bundle-size" name="bundle_size" value="10">
+        <input type="hidden" id="pp-bundle-price" name="bundle_price" value="0">
+        <input type="hidden" id="pp-order-qty" name="order_qty" value="1">
+        <input type="hidden" id="pp-lead-event-id" name="lead_event_id" value="">
+        <input type="hidden" id="pp-full-address" name="full_address" value="">
+        <input type="hidden" id="pp-delivery-method" name="delivery_method" value="home">
+
+        <label class="pp-lab"><i>1</i>الباقة</label>
+        <div class="pp-mini" id="pp-mini"><!-- تتولد بالجافاسكريبت من BUNDLES + CUSTOM_BUNDLES --></div>
+
+        <label class="pp-lab"><i>2</i>عدد الباقات</label>
+        <div class="pp-qty">
+          <span id="pp-qty-minus">−</span>
+          <span id="pp-qty-count">1</span>
+          <span id="pp-qty-plus">+</span>
+        </div>
+
+        <label class="pp-lab"><i>3</i>معلومات التوصيل</label>
+        <div class="pp-field"><input type="text" name="full_name" id="pp-name" placeholder="🤍 الاسم بالكامل" required autocomplete="name"></div>
+        <div class="pp-field"><input type="tel" name="phone_number" id="pp-phone" pattern="^(06|07|05)[0-9]{8}$" inputmode="tel" maxlength="10" placeholder="📞 رقم الهاتف" required autocomplete="tel"></div>
+        <div class="pp-2" style="margin-top:11px">
+          <div class="pp-field" style="margin-top:0">
+            <select name="judecheckout_state" id="judecheckout_state" required>
+              <option value="" selected="selected">الولاية</option>
+              <option value="DZ-01">01 Adrar - أدرار</option><option value="DZ-02">02 Chlef - الشلف</option><option value="DZ-03">03 Laghouat - الأغواط</option><option value="DZ-04">04 Oum El Bouaghi - أم البواقي</option><option value="DZ-05">05 Batna - باتنة</option><option value="DZ-06">06 Béjaïa - بجاية</option><option value="DZ-07">07 Biskra - بسكرة</option><option value="DZ-08">08 Bechar - بشار</option><option value="DZ-09">09 Blida - البليدة</option><option value="DZ-10">10 Bouira - البويرة</option><option value="DZ-11">11 Tamanrasset - تمنراست</option><option value="DZ-12">12 Tébessa - تبسة</option><option value="DZ-13">13 Tlemcene - تلمسان</option><option value="DZ-14">14 Tiaret - تيارت</option><option value="DZ-15">15 Tizi Ouzou - تيزي وزو</option><option value="DZ-16">16 Alger - الجزائر</option><option value="DZ-17">17 Djelfa - الجلفة</option><option value="DZ-18">18 Jijel - جيجل</option><option value="DZ-19">19 Sétif - سطيف</option><option value="DZ-20">20 Saïda - سعيدة</option><option value="DZ-21">21 Skikda - سكيكدة</option><option value="DZ-22">22 Sidi Bel Abbès - سيدي بلعباس</option><option value="DZ-23">23 Annaba - عنابة</option><option value="DZ-24">24 Guelma - قالمة</option><option value="DZ-25">25 Constantine - قسنطينة</option><option value="DZ-26">26 Médéa - المدية</option><option value="DZ-27">27 Mostaganem - مستغانم</option><option value="DZ-28">28 MSila - مسيلة</option><option value="DZ-29">29 Mascara - معسكر</option><option value="DZ-30">30 Ouargla - ورقلة</option><option value="DZ-31">31 Oran - وهران</option><option value="DZ-32">32 El Bayadh - البيض</option><option value="DZ-33">33 Illizi - إليزي</option><option value="DZ-34">34 Bordj Bou Arreridj - برج بوعريريج</option><option value="DZ-35">35 Boumerdès - بومرداس</option><option value="DZ-36">36 El Tarf - الطارف</option><option value="DZ-37">37 Tindouf - تندوف</option><option value="DZ-38">38 Tissemsilt - تيسمسيلت</option><option value="DZ-39">39 Eloued - الوادي</option><option value="DZ-40">40 Khenchela - خنشلة</option><option value="DZ-41">41 Souk Ahras - سوق أهراس</option><option value="DZ-42">42 Tipaza - تيبازة</option><option value="DZ-43">43 Mila - ميلة</option><option value="DZ-44">44 Aïn Defla - عين الدفلى</option><option value="DZ-45">45 Naâma - النعامة</option><option value="DZ-46">46 Aïn Témouchent - عين تموشنت</option><option value="DZ-47">47 Ghardaïa - غرداية</option><option value="DZ-48">48 Relizane- غليزان</option><option value="DZ-49">49 Timimoun - تيميمون</option><option value="DZ-50">50 Bordj Baji Mokhtar - برج باجي مختار</option><option value="DZ-51">51 Ouled Djellal - أولاد جلال</option><option value="DZ-52">52 Béni Abbès - بني عباس</option><option value="DZ-53">53 Aïn Salah - عين صالح</option><option value="DZ-54">54 In Guezzam - عين قزام</option><option value="DZ-55">55 Touggourt - تقرت</option><option value="DZ-56">56 Djanet - جانت</option><option value="DZ-57">57 El MGhair - المغير</option><option value="DZ-58">58 El Menia - المنيعة</option>
+            </select>
+          </div>
+          <div class="pp-field" style="margin-top:0">
+            <select name="judecheckout_city" id="judecheckout_city" required>
+              <option value="" selected="selected">البلدية</option>
+            </select>
+          </div>
+        </div>
+
+        <label class="pp-lab"><i>4</i>طريقة التوصيل</label>
+        <div class="pp-ship" id="pp-ship">
+          <button type="button" class="on" data-delivery="home">🏠 إلى المنزل<small id="pp-ship-home">اختاري الولاية</small></button>
+          <button type="button" data-delivery="desk">🏢 إلى المكتب<small id="pp-ship-desk">اختاري الولاية</small></button>
+        </div>
+
+        <div class="pp-bd">
+          <div class="r"><span id="pp-bd-name">باقة 10 قطع</span><span id="pp-bd-prod">TODO د.ج</span></div>
+          <div class="r"><span>التوصيل</span><span id="pp-bd-ship">اختاري الولاية</span></div>
+          <div class="r tot"><span>الإجمالي</span><b id="pp-bd-total">TODO د.ج</b></div>
+        </div>
+
+        <div id="pp-msg"></div>
+
+        <button type="submit" id="pp-submit" class="wdk-shaked">تأكيد الطلب 🎀</button>
+        <div class="pp-safe">🔒 معلوماتك محفوظة — الدفع نقداً عند استلام الطرد.</div>
+      </form>
+    </div>
+
+    <div class="pp-foot">TODO: اسم العلامة — صناعة يدوية جزائرية</div>
+  </div>
+
+  <div class="pp-sticky" id="pp-sticky">
+    <div class="p" id="pp-sticky-total">TODO دج<small>الدفع عند الاستلام</small></div>
+    <button type="button" id="pp-sticky-cta">اطلبي الآن 🎀</button>
+  </div>
+
+  <div class="pp-lb" id="pp-lb"><button type="button" id="pp-lb-x">✕</button><img id="pp-lb-img" alt="عرض مكبّر"></div>
+</div>
+
+<!-- ربط ملف JavaScript الخارجي -->
+<script src="the-java.js"></script>
+</body>
+</html>
