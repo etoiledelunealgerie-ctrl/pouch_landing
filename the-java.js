@@ -5,20 +5,25 @@
 
   /* ==========================================================================
      التسعير حسب الكمية (درجات):
-       أقل من 30 قطعة  → 250 دج للقطعة
-       30 إلى 40 قطعة  → 200 دج للقطعة
+       أقل من 10 قطع (يعني 5) → 280 دج للقطعة (بدون توصيل مجاني)
+       10 إلى 19 قطعة  → 250 دج للقطعة (بدون توصيل مجاني)
+       20 إلى 29 قطعة  → 220 دج للقطعة + توصيل مجاني
+       30 إلى 49 قطعة  → 200 دج للقطعة + توصيل مجاني
        50 قطعة فما فوق → 190 دج للقطعة + توصيل مجاني
-     TODO: بدّلي هاذو الأرقام إذا تبدّل السعر مستقبلاً — بلاصة وحدة فقط.
   ========================================================================== */
   var PRICE_TIERS = [
     { min:50, price:190, freeDelivery:true },
-    { min:30, price:200, freeDelivery:false },
-    { min:0,  price:250, freeDelivery:false }
+    { min:30, price:200, freeDelivery:true },
+    { min:20, price:220, freeDelivery:true },
+    { min:10, price:250, freeDelivery:false },
+    { min:0,  price:280, freeDelivery:false }
   ];
+
   function priceForPieces(pieces){
     for(var i=0;i<PRICE_TIERS.length;i++){ if(pieces >= PRICE_TIERS[i].min) return PRICE_TIERS[i]; }
     return PRICE_TIERS[PRICE_TIERS.length-1];
   }
+
   function makeBundle(k, pieces){
     var tier = priceForPieces(pieces);
     return {
@@ -30,7 +35,7 @@
     };
   }
 
-  var BUNDLES = [10,20,30,40].map(function(n){ return makeBundle('b'+n, n); });
+  var BUNDLES = [5,10,20,30,40].map(function(n){ return makeBundle('b'+n, n); });
   var CUSTOM_STEPS = [50,60,70,80,90,100];
   var CUSTOM_BUNDLES = CUSTOM_STEPS.map(function(n){ return makeBundle('c'+n, n); });
 
