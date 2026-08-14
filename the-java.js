@@ -80,7 +80,7 @@
   CUSTOM_BUNDLES.forEach(function(b){
     var btn = document.createElement('button');
     btn.type = 'button'; btn.setAttribute('data-k', b.k);
-    btn.textContent = b.pieces + ' قطعة' + (b.price != null ? ' — ' + fmt(b.price) + ' دج' : '');
+    btn.textContent = b.pieces + ' قطعة — ' + fmt(b.price) + ' دج' + (b.freeDelivery ? ' 🚚 مجاني' : '');
     moreBox.appendChild(btn);
   });
 
@@ -99,11 +99,11 @@
     document.querySelectorAll('#pp-bundles-more button').forEach(function(c){ c.classList.toggle('on', c.getAttribute('data-k') === k); });
     document.querySelectorAll('#pp-mini button').forEach(function(c){ c.classList.toggle('on', c.getAttribute('data-k') === k); });
     $('pp-bundle-size').value = b.pieces;
-    $('pp-bundle-price').value = b.price != null ? b.price : 0;
+    $('pp-bundle-price').value = b.price;
     $('pp-chosen-name').textContent = b.label;
     $('pp-bd-name').textContent = b.label;
-    $('pp-tag-price').textContent = b.price != null ? fmt(b.price) + ' دج' : 'TODO دج';
-    $('pp-tag-note').textContent = b.label;
+    $('pp-tag-price').textContent = fmt(b.price) + ' دج';
+    $('pp-tag-note').textContent = b.label + (b.freeDelivery ? ' · توصيل مجاني 🎉' : '');
     recalc();
   }
 
@@ -212,6 +212,8 @@
   });
 
   function shipCost(){
+    var b = findBundle(state.bundleKey);
+    if(b && b.freeDelivery) return 0;
     if(!wil.value) return null;
     var p = SHIP[wil.value] || DEFAULT_SHIP;
     return $('pp-delivery-method').value === 'desk' ? p[1] : p[0];
@@ -220,21 +222,27 @@
   /* ====== الحساب ====== */
   function recalc(){
     var b = findBundle(state.bundleKey); if(!b) return;
-    var unit = b.price != null ? b.price : 0;
-    var product = unit * state.orderQty;
+    var product = b.price * state.orderQty;
     var ship = shipCost();
     var pair = wil.value ? (SHIP[wil.value] || DEFAULT_SHIP) : null;
-    $('pp-ship-home').textContent = pair ? pair[0] + ' د.ج' : 'اختاري الولاية';
-    $('pp-ship-desk').textContent = pair ? pair[1] + ' د.ج' : 'اختاري الولاية';
 
-    $('pp-bd-prod').textContent = (b.price != null ? fmt(product) + ' د.ج' : 'TODO د.ج') + (state.orderQty > 1 ? ' (×' + state.orderQty + ')' : '');
+    if(b.freeDelivery){
+      $('pp-ship-home').textContent = 'مجاني 🎉';
+      $('pp-ship-desk').textContent = 'مجاني 🎉';
+    } else {
+      $('pp-ship-home').textContent = pair ? pair[0] + ' د.ج' : 'اختاري الولاية';
+      $('pp-ship-desk').textContent = pair ? pair[1] + ' د.ج' : 'اختاري الولاية';
+    }
+
+    $('pp-bd-prod').textContent = fmt(product) + ' د.ج' + (state.orderQty > 1 ? ' (×' + state.orderQty + ')' : '');
     var total;
-    if(ship === null){ $('pp-bd-ship').textContent = 'اختاري الولاية'; total = product; }
+    if(b.freeDelivery){ $('pp-bd-ship').textContent = 'مجاني 🎉'; total = product; }
+    else if(ship === null){ $('pp-bd-ship').textContent = 'اختاري الولاية'; total = product; }
     else { $('pp-bd-ship').textContent = fmt(ship) + ' د.ج'; total = product + ship; }
 
-    $('pp-bd-total').textContent = b.price != null ? fmt(total) + ' د.ج' : 'TODO د.ج';
-    $('pp-chosen-price').textContent = b.price != null ? fmt(product) + ' دج' : 'TODO دج';
-    $('pp-sticky-total').innerHTML = (b.price != null ? fmt(total) + ' دج' : 'TODO دج') + '<small>الدفع عند الاستلام</small>';
+    $('pp-bd-total').textContent = fmt(total) + ' د.ج';
+    $('pp-chosen-price').textContent = fmt(product) + ' دج';
+    $('pp-sticky-total').innerHTML = fmt(total) + ' دج<small>الدفع عند الاستلام</small>';
 
     $('pp-order-qty').value = state.orderQty;
     $('pp-qty-count').textContent = state.orderQty;
