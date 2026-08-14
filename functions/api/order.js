@@ -1,18 +1,5 @@
 /*
-  functions/api/order.js  →  https://YOUR-DOMAIN/api/order
-  Cloudflare Pages routes by EXACT file path (see PDF §1). The frontend
-  calls fetch('/api/order') — this file MUST stay at functions/api/order.js,
-  not renamed, or you get a silent 404 with zero logs.
-
-  TODO(env vars): set these in Cloudflare Pages → Settings → Environment
-  variables. NEVER hardcode them in this file (this file goes to GitHub).
-    SUPABASE_URL            e.g. https://xxxx.supabase.co
-    SUPABASE_SERVICE_KEY    service_role key (server-side only, never expose to client)
-    META_PIXEL_ID           TODO
-    META_ACCESS_TOKEN       TODO (System User token from Events Manager)
-
-  TODO(table): this expects a `orders` table matching supabase-schema.sql.
-  Run that file in the Supabase SQL editor before testing.
+  functions/api/order.js  
 */
 
 export async function onRequestPost(context) {
@@ -32,16 +19,18 @@ export async function onRequestPost(context) {
     }
   }
 
-  // ---- 1) Insert into Supabase ------------------------------------------------
-  // ---- 1) Parse Data & Extract Cookies for 'myclicks' schema ------------------
-  const cookieHeader = request.headers.get('Cookie') || '';
-  const fbpMatch = cookieHeader.match(/_fbp=([^;]+)/);
-  const fbcMatch = cookieHeader.match(/_fbc=([^;]+)/);
+  // ---- 1) Parse Data, IPs, and User Agent ------------------
+  // Securely grab the client's actual IP and browser details from Cloudflare
+  const ipAddress = request.headers.get('CF-Connecting-IP') || '';
+  const userAgent = request.headers.get('User-Agent') || '';
   
   // Split 'full_name' into first name and last name
   const nameParts = (body.full_name || '').trim().split(' ');
   const firstName = nameParts[0] || '';
   const lastName = nameParts.slice(1).join(' ') || '';
+
+  // Construct the product format (e.g., "باقة 20 قطعة x2")
+  const productString = `باقة ${body.bundle_size} قطعة x${body.order_qty}`;
 
   // ---- 2) Insert into Supabase (myclicks) -------------------------------------
   const insertRes = await fetch(`${env.SUPABASE_URL}/rest/v1/myclicks`, {
@@ -60,27 +49,27 @@ export async function onRequestPost(context) {
       commune: body.commune,
       address: body.full_address, 
       total_amount: body.total_amount,
-      fbp: fbpMatch ? fbpMatch[1] : null,
-      fbc: fbcMatch ? fbcMatch[1] : null,
+      fbp: body.fbp, 
+      fbc: body.fbc,
+      ip_address: ipAddress,
+      user_agent: userAgent,
+      page: 'Pouch Bags Landing', // Identifies exactly where the lead came from
+      products: productString,
+      total_quantity: body.order_qty,
       status: 'pending'
     })
   });
-  
-  // Per PDF §4: never trust a 200 by itself — read the real body.
+
   let supabaseDebug = null;
   if (!insertRes.ok) {
     const errText = await insertRes.text();
     supabaseDebug = { status: insertRes.status, error: errText };
-    // TODO: remove supabaseDebug from the returned JSON before going live —
-    // it exposes internal error details to anyone calling this endpoint directly.
     return json({ success: false, supabaseDebug }, 502);
   }
   const rows = await insertRes.json();
   const row = rows[0];
 
-  // ---- 2) Fire server-side Lead event via Meta CAPI ----------------------------
-  // Uses the SAME event_id the browser Pixel already fired client-side (fbq Lead),
-  // so Meta dedupes them into one Lead instead of counting twice.
+  // ---- 3) Fire server-side Lead event via Meta CAPI ----------------------------
   if (env.META_PIXEL_ID && env.META_ACCESS_TOKEN) {
     try {
       await fetch(`https://graph.facebook.com/v19.0/${env.META_PIXEL_ID}/events?access_token=${env.META_ACCESS_TOKEN}`, {
@@ -90,21 +79,26 @@ export async function onRequestPost(context) {
           data: [{
             event_name: 'Lead',
             event_time: Math.floor(Date.now() / 1000),
-            event_id: body.lead_event_id, // must match the client-side fbq call exactly
+            event_id: body.lead_event_id, 
             action_source: 'website',
             user_data: {
               ph: [await sha256(normalizePhone(body.phone_number))],
-              client_ip_address: request.headers.get('CF-Connecting-IP') || undefined,
-              client_user_agent: request.headers.get('User-Agent') || undefined
-              // TODO: add fbp/fbc cookies from the request if you forward them from the client —
-              // curl can't produce real ones (PDF §8), only a real browser session can.
+              client_ip_address: ipAddress,
+              client_user_agent: userAgent,
+              fbp: body.fbp,
+              fbc: body.fbc
             },
-            custom_data: { currency: 'DZD', value: body.bundle_price }
+            custom_data: { 
+                currency: 'DZD', 
+                value: body.total_amount,
+                content_name: productString,
+                num_items: body.order_qty
+            }
           }]
         })
       });
     } catch (e) {
-      // Don't fail the order if CAPI has a hiccup — the order itself is already saved.
+      // Fail silently for Meta to ensure the user still gets a success message
     }
   }
 
@@ -117,7 +111,6 @@ function json(obj, status = 200) {
 
 function normalizePhone(p) {
   let clean = p.replace(/\D/g, '');
-  // If it's an Algerian local number starting with 0, replace 0 with 213
   if (clean.startsWith('0') && clean.length === 10) {
     clean = '213' + clean.substring(1);
   }
