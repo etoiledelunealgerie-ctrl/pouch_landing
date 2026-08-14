@@ -238,8 +238,8 @@
       $('pp-ship-home').textContent = pair ? pair[0] + ' د.ج' : 'اختاري الولاية';
       $('pp-ship-desk').textContent = pair ? pair[1] + ' د.ج' : 'اختاري الولاية';
     }
-
-    $('pp-bd-prod').textContent = fmt(product) + ' د.ج' + (state.orderQty > 1 ? ' (×' + state.orderQty + ')' : '');
+    
+    $('pp-bd-prod').textContent = fmt(product) + ' د.ج';
     var total;
     if(b.freeDelivery){ $('pp-bd-ship').textContent = 'مجاني 🎉'; total = product; }
     else if(ship === null){ $('pp-bd-ship').textContent = 'اختاري الولاية'; total = product; }
@@ -250,11 +250,9 @@
     $('pp-sticky-total').innerHTML = fmt(total) + ' دج<small>الدفع عند الاستلام</small>';
 
     $('pp-order-qty').value = state.orderQty;
-    $('pp-qty-count').textContent = state.orderQty;
+    
   }
 
-  $('pp-qty-plus').addEventListener('click', function(){ state.orderQty = Math.min(state.orderQty+1,20); recalc(); });
-  $('pp-qty-minus').addEventListener('click', function(){ state.orderQty = Math.max(state.orderQty-1,1); recalc(); });
 
   /* ====== CTA + ripple + شريط ثابت ====== */
   function goOrder(){ $('pp-order').scrollIntoView({behavior:'smooth', block:'start'}); }
@@ -422,4 +420,36 @@
   /* ====== الحالة الابتدائية ====== */
   selectBundle('b10');
   showStage(0, 0);
+
+  /* ====== العداد المباشر (Live Counter) ====== */
+  (function initLiveCounter(){
+    var countEl = $('pp-live-count');
+    if(!countEl) return;
+    
+    // This is your starting number. The script will add your real database orders to this.
+    var BASELINE = 2500; 
+    var currentTotal = BASELINE;
+
+    function updateCount(){
+      fetch('/api/stats')
+        .then(function(res){ return res.json(); })
+        .then(function(data){
+          if(data.count !== undefined){
+            var newTotal = BASELINE + data.count;
+            // Only update and trigger the animation if a new order just came in!
+            if(newTotal > currentTotal){
+              currentTotal = newTotal;
+              countEl.textContent = currentTotal;
+              countEl.classList.add('pop');
+              setTimeout(function(){ countEl.classList.remove('pop'); }, 600);
+            }
+          }
+        })
+        .catch(function(){}); // Fail silently so the user never sees an error
+    }
+
+    updateCount(); // Fetch instantly on page load
+    setInterval(updateCount, 10000); // Check again every 10 seconds
+  })();
+  
 })();

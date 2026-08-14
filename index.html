@@ -137,7 +137,12 @@ src="https://www.facebook.com/tr?id=899939093169077&ev=PageView&noscript=1"/></n
     <div class="pp-sec rv">
       <div class="pp-trust">
         <div class="pp-stars">★★★★★</div>
-        <b>  أكثر من 2500 زبونة بفضل الله </b>
+
+        <div class="pp-live-wrap">
+          <div class="pp-live-badge"><span class="pp-pulse"></span>مباشر</div>
+          <b class="pp-live-text">أكثر من <span id="pp-live-count">2500</span> زبونة بفضل الله</b>
+        </div>
+        
         <span> LUNARIS  — صناعة يدوية جزائرية</span>
         <div class="pp-badges">
           <div><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>الدفع عند الاستلام</div>
@@ -168,16 +173,8 @@ src="https://www.facebook.com/tr?id=899939093169077&ev=PageView&noscript=1"/></n
         <input type="hidden" id="pp-full-address" name="full_address" value="">
         <input type="hidden" id="pp-delivery-method" name="delivery_method" value="home">
 
-        <label class="pp-lab"><i>1</i>الباقة</label>
+        <label class="pp-lab"><i>1</i>عدد القطع</label>
         <div class="pp-mini" id="pp-mini"><!-- تتولد بالجافاسكريبت من BUNDLES + CUSTOM_BUNDLES --></div>
-
-        <label class="pp-lab"><i>2</i>عدد الباقات</label>
-        <div class="pp-qty">
-          <span id="pp-qty-minus">−</span>
-          <span id="pp-qty-count">1</span>
-          <span id="pp-qty-plus">+</span>
-        </div>
-
         <label class="pp-lab"><i>3</i>معلومات التوصيل</label>
         <div class="pp-field"><input type="text" name="full_name" id="pp-name" placeholder="🤍 الاسم بالكامل" required autocomplete="name"></div>
         <div class="pp-field"><input type="tel" name="phone_number" id="pp-phone" pattern="^(06|07|05)[0-9]{8}$" inputmode="tel" maxlength="10" placeholder="📞 رقم الهاتف" required autocomplete="tel"></div>
