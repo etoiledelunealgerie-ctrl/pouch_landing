@@ -353,6 +353,13 @@
     $('pp-lead-event-id').value = eventId;
 
     // Calculate the final total (Product + Shipping) before sending
+    // Helper function to grab cookies from the browser
+    function getCookie(name) {
+      var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+      return match ? match[2] : null;
+    }
+
+    // Calculate the final total (Product + Shipping) before sending
     var currentShipCost = shipCost();
     var productTotal = (+$('pp-bundle-price').value) * (+$('pp-order-qty').value);
     var finalTotal = currentShipCost === null ? productTotal : productTotal + currentShipCost;
@@ -369,7 +376,9 @@
       full_address: $('pp-full-address').value,
       delivery_method: $('pp-delivery-method').value,
       lead_event_id: eventId,
-      total_amount: finalTotal // <-- Added this to feed your 'myclicks' table
+      total_amount: finalTotal,
+      fbp: getCookie('_fbp'), // <-- This grabs the Pixel cookie!
+      fbc: getCookie('_fbc')  // <-- This grabs the Click cookie!
     };
 
     // TODO(pixel): بدّلي بقيم حقيقية كي يكون الـ Pixel جاهز
