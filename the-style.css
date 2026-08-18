@@ -12,21 +12,24 @@ html,body{margin:0;padding:0;background:#FFFDD0}
 #lms-pp .pp-wrap{max-width:560px;margin:0 auto;padding:0 16px 44px;position:relative;z-index:3}
 #lms-pp h1,#lms-pp h2,#lms-pp .disp{font-family:'Cairo',sans-serif;font-weight:900;line-height:1.35}
 
+
 /* ===== فقاعات الخلفية ===== */
-#lms-pp .pp-bubbles{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+#lms-pp .pp-bubbles{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden}
 #lms-pp .pp-bubbles i{
   position:absolute;bottom:-140px;border-radius:50%;
-  background:radial-gradient(circle at 32% 28%,rgba(255,255,255,.92),rgba(240,98,160,.20) 42%,rgba(240,98,160,.10) 70%);
-  border:1px solid rgba(240,98,160,.16);
+  background:radial-gradient(circle at 32% 28%, rgba(255,255,255, 1), rgba(240,98,160, .35) 42%, rgba(240,98,160, .15) 70%);
+  border:1px solid rgba(240,98,160, .35);
   animation:pp-rise linear infinite; will-change:transform,opacity;
 }
 @keyframes pp-rise{
   0%{transform:translate3d(0,0,0) scale(.85);opacity:0}
-  12%{opacity:.85}
+  15%{opacity: 1} 
   50%{transform:translate3d(22px,-52vh,0) scale(1)}
-  85%{opacity:.55}
+  85%{opacity: .85} 
   100%{transform:translate3d(-14px,-108vh,0) scale(1.12);opacity:0}
 }
+
+
 #lms-pp .pp-silk{position:absolute;border-radius:50%;filter:blur(60px);z-index:0;pointer-events:none}
 #lms-pp .pp-silk.s1{width:300px;height:300px;background:rgba(240,98,160,.22);top:-80px;inset-inline-start:-100px}
 #lms-pp .pp-silk.s2{width:260px;height:260px;background:rgba(232,180,184,.30);top:520px;inset-inline-end:-110px}
@@ -34,13 +37,13 @@ html,body{margin:0;padding:0;background:#FFFDD0}
 
 /* ===== HERO ===== */
 #lms-pp .pp-top{display:flex;align-items:center;justify-content:space-between;padding:14px 2px 6px}
-#lms-pp .pp-brand{font-family:'Cairo',sans-serif;font-weight:900;font-size:17px;letter-spacing:.3px}
+#lms-pp .pp-brand{font-family:'Cairo',sans-serif;font-weight:900;font-size:35px;letter-spacing:.3px}
 #lms-pp .pp-brand span{background:linear-gradient(90deg,var(--rose),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
 #lms-pp .pp-cod{font-size:11.5px;font-weight:700;color:var(--rose-d);background:rgba(240,98,160,.10);border:1px solid rgba(240,98,160,.24);border-radius:999px;padding:5px 12px}
 #lms-pp .pp-eyebrow{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:700;color:var(--rose-d);background:rgba(255,255,255,.75);border:1px solid var(--line);border-radius:999px;padding:5px 12px;margin-bottom:8px;backdrop-filter:blur(8px)}
 #lms-pp h1{font-size:clamp(26px,7.2vw,36px);margin-bottom:8px}
 #lms-pp h1 em{font-style:normal;background:linear-gradient(90deg,var(--rose),var(--rose-d));-webkit-background-clip:text;background-clip:text;color:transparent}
-#lms-pp .pp-lead{color:var(--sub);font-size:15px;line-height:1.85}
+#lms-pp .pp-lead{color:var(--ink);font-size:15px;line-height:1.85}
 
 #lms-pp .pp-stage{position:relative;width:100%;aspect-ratio:.86;margin:12px 0 6px;display:flex;align-items:center;justify-content:center}
 #lms-pp .pp-frame{position:relative;width:100%;height:100%;border-radius:26px;overflow:hidden;background:linear-gradient(150deg,#FFE7F1,#FFF6FA 55%,#FBE3EC);box-shadow:0 24px 54px rgba(214,66,127,.16);animation:pp-breathe 7s ease-in-out infinite;will-change:transform}
@@ -50,7 +53,7 @@ html,body{margin:0;padding:0;background:#FFFDD0}
 @keyframes pp-sweep{0%{inset-inline-start:-70%}55%,100%{inset-inline-start:130%}}
 #lms-pp .pp-tag{position:absolute;z-index:4;bottom:12px;inset-inline-start:12px;background:rgba(255,255,255,.86);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:18px;padding:9px 14px;box-shadow:0 10px 24px rgba(214,66,127,.15)}
 #lms-pp .pp-tag b{display:block;font-family:'Cairo',sans-serif;font-size:18px;font-weight:900;background:linear-gradient(90deg,var(--rose),var(--rose-d));-webkit-background-clip:text;background-clip:text;color:transparent}
-#lms-pp .pp-tag span{font-size:10.5px;color:var(--sub)}
+#lms-pp .pp-tag span{font-size:15px;color:var(--ink)}
 
 #lms-pp .pp-cta-row{display:flex;gap:10px;align-items:center;margin-top:8px}
 #lms-pp .pp-btn{border:none;border-radius:16px;padding:15px 12px;font-family:'Cairo',sans-serif;font-size:16px;font-weight:900;cursor:pointer;position:relative;overflow:hidden;transition:transform .16s,box-shadow .25s}
@@ -64,7 +67,7 @@ html,body{margin:0;padding:0;background:#FFFDD0}
 /* ===== SECTIONS ===== */
 #lms-pp .pp-sec{margin-top:34px}
 #lms-pp .pp-sec>h2{font-size:21px;margin-bottom:4px}
-#lms-pp .pp-sec>.pp-sub{font-size:13px;color:var(--sub);margin-bottom:14px}
+#lms-pp .pp-sec>.pp-sub{font-size:13px;color:var(--ink);margin-bottom:14px}
 #lms-pp .rv{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
 #lms-pp .rv.in{opacity:1;transform:none}
 
@@ -102,19 +105,52 @@ html,body{margin:0;padding:0;background:#FFFDD0}
 #lms-pp .pp-bundles-more button:hover{transform:translateY(-2px)}
 #lms-pp .pp-bundles-more button.on{border-color:var(--rose);background:rgba(240,98,160,.10);color:var(--rose-d)}
 
-/* ===== شبكة 15 صندوق مصغّر (كل صندوق = 4 صور) ===== */
+/* ===== شبكة الصناديق المصغّرة (كل صندوق يبيّن غلاف واحد فقط) ===== */
 #lms-pp .pp-thumbs{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:14px 0 6px}
-#lms-pp .pp-thumb-box{position:relative;border-radius:12px;overflow:hidden;border:1.5px solid var(--line);cursor:pointer;background:#fff;aspect-ratio:1;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:1px;transition:border-color .2s,transform .2s,box-shadow .2s}
+#lms-pp .pp-thumb-box{position:relative;border-radius:12px;overflow:hidden;border:1.5px solid var(--line);cursor:pointer;background:#fff;aspect-ratio:1;transition:border-color .2s,transform .2s,box-shadow .2s}
 #lms-pp .pp-thumb-box:hover{transform:translateY(-2px)}
 #lms-pp .pp-thumb-box.on{border-color:var(--rose);box-shadow:0 0 0 2px rgba(240,98,160,.22)}
-#lms-pp .pp-thumb-box img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:auto}
+#lms-pp .pp-thumb-box img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
 #lms-pp .pp-thumb-box .num{position:absolute;top:3px;inset-inline-start:3px;background:rgba(42,23,33,.55);color:#fff;font-size:9px;font-weight:800;border-radius:6px;padding:1px 5px;z-index:2}
+#lms-pp .pp-thumb-box .count{position:absolute;bottom:3px;inset-inline-end:3px;background:rgba(42,23,33,.55);color:#fff;font-size:9px;font-weight:800;border-radius:6px;padding:1px 5px;z-index:2}
+
+/* أسهم التنقل على جنب الصورة الكبيرة */
+#lms-pp .pp-stage-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:4;width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,.86);backdrop-filter:blur(10px);color:var(--ink);font-size:20px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s,transform .2s}
+#lms-pp .pp-stage-nav:hover{background:#fff;transform:translateY(-50%) scale(1.06)}
+#lms-pp .pp-stage-nav.prev{inset-inline-start:10px}
+#lms-pp .pp-stage-nav.next{inset-inline-end:10px}
 
 /* نقاط تنقل فوق الصورة الكبيرة (تبان بعد اختيار صندوق) */
 #lms-pp .pp-stage-dots{position:absolute;z-index:4;bottom:12px;inset-inline-end:12px;display:none;gap:6px;background:rgba(255,255,255,.86);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:999px;padding:6px 8px}
 #lms-pp .pp-stage-dots.show{display:flex}
 #lms-pp .pp-stage-dots span{width:8px;height:8px;border-radius:50%;background:var(--line);cursor:pointer;transition:background .2s,transform .2s}
 #lms-pp .pp-stage-dots span.on{background:var(--rose);transform:scale(1.2)}
+
+#pp-detail-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 1. Detail section container: fixed size, no cropping */
+#pp-detail-img {
+  width: 100%;
+  aspect-ratio: 3 / 4; /* Makes the box taller. Use 9 / 16 if your photos are full phone screen shots */
+  object-fit: contain; /* Shows 100% of the image without cutting ANY edges */
+  background-color: #ebc4e8; /* Subtle neutral backdrop for photos with different widths */
+  border-radius: 16px;
+  display: block;
+}
+
+/* 2. Detail video player: matches the exact same dimensions */
+#pp-detail video {
+  width: 100%;
+  aspect-ratio: 3 / 4; /* Matches the image box above */
+  object-fit: contain;
+  background-color: #000000;
+  border-radius: 16px;
+  display: block;
+}
 
 /* تفاصيل الصورة */
 #lms-pp .pp-detail{position:relative;border-radius:24px;overflow:hidden;background:#FFF1F7;box-shadow:0 18px 40px rgba(214,66,127,.13);cursor:zoom-in}

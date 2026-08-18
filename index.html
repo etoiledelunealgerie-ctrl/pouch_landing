@@ -28,7 +28,7 @@
 
 <!-- TODO(schema): عدّلي الأسعار والصور هنا بعد ما تربطي المخزون الحقيقي -->
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Product","name":"باقات الحقائب الصغيرة — TODO: اسم العلامة","image":["https://TODO-YOUR-DOMAIN.example/img/main-bag.jpg"],"description":"حقائب صغيرة صناعة يدوية، تُباع بالباقة (10 إلى 100 قطعة).","brand":{"@type":"Brand","name":"TODO: اسم العلامة"},"offers":{"@type":"AggregateOffer","priceCurrency":"DZD","lowPrice":"0","highPrice":"0","offerCount":"10","availability":"https://schema.org/InStock","url":"https://TODO-YOUR-DOMAIN.example/"}}
+{"@context":"https://schema.org","@type":"Product","name":"باقات الحقائب الصغيرة — LUNARIS ","image":["https://TODO-YOUR-DOMAIN.example/img/main-bag.jpg"],"description":"حقائب صغيرة صناعة يدوية، تُباع بالباقة (10 إلى 100 قطعة).","brand":{"@type":"Brand","name":"LUNARIS"},"offers":{"@type":"AggregateOffer","priceCurrency":"DZD","lowPrice":"190","highPrice":"280","offerCount":"11","availability":"https://schema.org/InStock","url":"pouch-landing.pages.dev"}}
 </script>
 
 <!-- ====================================================================
@@ -74,7 +74,7 @@ src="https://www.facebook.com/tr?id=899939093169077&ev=PageView&noscript=1"/></n
       <div>
         <span class="pp-eyebrow">✦ صناعة يدوية 100%</span>
         <h1>حقيبتك <em>بالكمية اللي تحتاجيها</em></h1>
-        <p class="pp-lead">حقائب صغيرة (Pouch Bags) مصنوعة يدوياً — اختاري الباقة المناسبة لك من 5 إلى 100 قطعة.</p>
+        <p class="pp-lead">حقائب صغيرة (Pouch Bags) مصنوعة يدوياً — اختاري الباقة المناسبة لك من 5 إلى 100 قطعة. (تأتي الباقات بتشكيلة متنوعة من الألوان الجميلة).</p>
         <div class="pp-cta-row">
           <button type="button" class="pp-btn main" id="pp-cta1">اطلبي الآن</button>
           <button type="button" class="pp-btn soft" id="pp-cta2">شوفي القطع</button>
@@ -83,8 +83,10 @@ src="https://www.facebook.com/tr?id=899939093169077&ev=PageView&noscript=1"/></n
 
       <div class="pp-stage">
         <div class="pp-frame">
-          <img id="pp-stage-img" src="img/main-bag.jpg" alt="حقيبة صغيرة صناعة يدوية" width="820" height="1025" decoding="async" fetchpriority="high">
+          <img id="pp-stage-img" src="a1.jpeg" alt="حقيبة صغيرة صناعة يدوية" width="820" height="1025" decoding="async" fetchpriority="high">
           <div class="pp-shine"></div>
+          <button type="button" class="pp-stage-nav prev" id="pp-stage-prev" aria-label="الصورة السابقة">‹</button>
+          <button type="button" class="pp-stage-nav next" id="pp-stage-next" aria-label="الصورة التالية">›</button>
         </div>
         <div class="pp-tag"><b id="pp-tag-price">TODO دج</b><span id="pp-tag-note">اختاري الباقة تحت</span></div>
         <!-- نقاط تنقل بين الـ 4 صور لكل صندوق مصغّر -->
@@ -98,7 +100,7 @@ src="https://www.facebook.com/tr?id=899939093169077&ev=PageView&noscript=1"/></n
 
     <!-- ===== اختاري الباقة ===== -->
     <div class="pp-sec rv" id="pp-picks-sec">
-      <h2>اختاري الباقة</h2>
+      <h2> إختاري عدد القطع سيدتي ستتحصلين على ألوان مختلفة ،نحن ورشة خياطة و نصنع أعداد كثيرة لذلك لا نستطيع أن نوفر لك لون محدد </h2>
       <div class="pp-sub">باقة وحدة تكفي — السعر يتبدّل مباشرة حسب عدد القطع.</div>
       <div class="pp-picks" id="pp-picks"><!-- تتولد بالجافاسكريبت من BUNDLES --></div>
 
@@ -113,8 +115,7 @@ src="https://www.facebook.com/tr?id=899939093169077&ev=PageView&noscript=1"/></n
       <div class="pp-bens">
         <div class="pp-ben"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l2.2 5.6L20 9.5l-4 4.1 1 6-5-2.9-5 2.9 1-6-4-4.1 5.8-.9z"/></svg></div><b>صناعة يدوية</b><span>كل قطعة تُخاط يدوياً بعناية فائقة.</span></div>
         <div class="pp-ben"><div class="ic"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 16 0"/><path d="M4 12a8 8 0 0 0 16 0"/><path d="M12 4v16"/></svg></div><b>قماش مختار</b><span>أقمشة متينة ومريحة اللمس.</span></div>
-        <div class="pp-ben"><div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="12" rx="2"/><path d="M8 7V5h8v2"/><path d="M3 12h18"/></svg></div><b>باقات مرنة</b><span>من 5 إلى 100 قطعة حسب حاجتك.</span></div>
-        <div class="pp-ben"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 21c-4.4-3.1-7-6-7-9.5A7 7 0 0 1 19 11.5c0 3.5-2.6 6.4-7 9.5z"/></svg></div><b>ألوان تدوم</b><span>خياطة وألوان تتحمل الاستعمال اليومي.</span></div>
+        <div class="pp-ben"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 21c-4.4-3.1-7-6-7-9.5A7 7 0 0 1 19 11.5c0 3.5-2.6 6.4-7 9.5z"/></svg></div><b>تشكيلة ألوان</b><span>كل باقة تحتوي على مزيج متنوع من الألوان الجميلة.</span></div>
         <div class="pp-ben"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 13h11V6H3z"/><path d="M14 9h4l3 4v3h-7z"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></svg></div><b> 9mach interieure antifuite  </b><span>قماش داخلي مانع التسرب</span></div>
       </div>
     </div>
@@ -124,8 +125,10 @@ src="https://www.facebook.com/tr?id=899939093169077&ev=PageView&noscript=1"/></n
       <h2>شوفي التفاصيل</h2>
       <div class="pp-sub">اضغطي على إحدى الصور تحت باش تبان في الصورة الكبيرة، أو اضغطي عليها باش تكبّريها.</div>
       <div class="pp-detail" id="pp-detail">
-          <img id="pp-detail-img" src="img/detail-1.jpg" alt="تفاصيل الحقيبة الصغيرة" width="560" height="700" loading="lazy" decoding="async">
-        <div class="cap" id="pp-detail-cap">تفاصيل القماش والخياطة</div>
+          <!-- We changed the src to fitin.jpg -->
+          <img id="pp-detail-img" src="fitin.jpg" alt="تفاصيل الحقيبة الصغيرة" width="560" height="700" loading="lazy" decoding="async">
+        <!-- We changed the default text to match the JS array -->
+        <div class="cap" id="pp-detail-cap">مساحة واسعة</div>
       </div>
       <div class="pp-detail-thumbs" id="pp-detail-thumbs" aria-label="اختاري صورة التفاصيل"><!-- تتولد بالجافاسكريبت من DETAIL_IMAGES --></div>
       <div class="pp-specs">
@@ -140,9 +143,9 @@ src="https://www.facebook.com/tr?id=899939093169077&ev=PageView&noscript=1"/></n
 
         <div class="pp-live-wrap">
           <div class="pp-live-badge"><span class="pp-pulse"></span>مباشر</div>
-          <b class="pp-live-text">أكثر من <span id="pp-live-count">2500</span> زبونة بفضل الله</b>
+          <b class="pp-live-text">أكثر من <span id="pp-live-count">2560</span> زبونة بفضل الله</b>
         </div>
-        
+
         <span> LUNARIS  — صناعة يدوية جزائرية</span>
         <div class="pp-badges">
           <div><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>الدفع عند الاستلام</div>
@@ -175,7 +178,7 @@ src="https://www.facebook.com/tr?id=899939093169077&ev=PageView&noscript=1"/></n
 
         <label class="pp-lab"><i>1</i>عدد القطع</label>
         <div class="pp-mini" id="pp-mini"><!-- تتولد بالجافاسكريبت من BUNDLES + CUSTOM_BUNDLES --></div>
-        <label class="pp-lab"><i>3</i>معلومات التوصيل</label>
+        <label class="pp-lab"><i>2</i>معلومات التوصيل</label>
         <div class="pp-field"><input type="text" name="full_name" id="pp-name" placeholder="🤍 الاسم بالكامل" required autocomplete="name"></div>
         <div class="pp-field"><input type="tel" name="phone_number" id="pp-phone" pattern="^(06|07|05)[0-9]{8}$" inputmode="tel" maxlength="10" placeholder="📞 رقم الهاتف" required autocomplete="tel"></div>
         <div class="pp-2" style="margin-top:11px">
@@ -192,7 +195,7 @@ src="https://www.facebook.com/tr?id=899939093169077&ev=PageView&noscript=1"/></n
           </div>
         </div>
 
-        <label class="pp-lab"><i>4</i>طريقة التوصيل</label>
+        <label class="pp-lab"><i>3</i>طريقة التوصيل</label>
         <div class="pp-ship" id="pp-ship">
           <button type="button" class="on" data-delivery="home">🏠 إلى المنزل<small id="pp-ship-home">اختاري الولاية</small></button>
           <button type="button" data-delivery="desk">🏢 إلى المكتب<small id="pp-ship-desk">اختاري الولاية</small></button>
@@ -207,7 +210,7 @@ src="https://www.facebook.com/tr?id=899939093169077&ev=PageView&noscript=1"/></n
         <div id="pp-msg"></div>
 
         <button type="submit" id="pp-submit" class="wdk-shaked">تأكيد الطلب 🎀</button>
-        <div class="pp-safe">🔒 معلوماتك محفوظة — الدفع نقداً عند استلام الطرد.</div>
+        <div class="pp-safe">🔒 معلوماتك محفوظة — الدفع نقداً عند استلام الطرد. <br><small>ملاحظة: تُشحن الباقات بتشكيلة ألوان متنوعة وعشوائية.</small></div>
       </form>
     </div>
 
