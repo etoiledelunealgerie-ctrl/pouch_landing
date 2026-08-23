@@ -484,6 +484,7 @@
 
     var payload = {
       pieces_count: totalPieces,
+      colors_summary: document.getElementById('pp-colors-summary').value, // <--- ADDED THIS LINE
       full_name: name.value.trim(),
       phone_number: phone.value.trim(),
       wilaya_name: wt,

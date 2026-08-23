@@ -12,7 +12,7 @@ export async function onRequestPost(context) {
     return json({ success: false, error: 'invalid_json' }, 400);
   }
 
-  // 1) Update required fields to match your new frontend payload
+  // Note: colors_summary is not in 'required' because it can be empty if they want random colors
   const required = ['pieces_count', 'full_name', 'phone_number', 'wilaya_name', 'commune', 'delivery_method', 'lead_event_id'];
   for (const key of required) {
     if (body[key] === undefined || body[key] === null || body[key] === '') {
@@ -27,7 +27,10 @@ export async function onRequestPost(context) {
   const firstName = nameParts[0] || '';
   const lastName = nameParts.slice(1).join(' ') || '';
 
-  // 2) Insert directly into Supabase using body.pieces_count
+  // ---- NEW FORMATTING LOGIC FOR THE WORKSHOP ----
+  const colorData = body.colors_summary ? body.colors_summary : 'تشكيلة عشوائية (Random)';
+  const formattedProducts = `${body.pieces_count} قطعة — الألوان: ${colorData}`;
+
   const insertRes = await fetch(`${env.SUPABASE_URL}/rest/v1/myclicks`, {
     method: 'POST',
     headers: {
@@ -49,8 +52,8 @@ export async function onRequestPost(context) {
       ip_address: ipAddress,
       user_agent: userAgent,
       page: 'Pouch Bags Landing',
-      products: body.pieces_count,    // Replaced calculation with direct payload data
-      total_quantity: body.pieces_count, 
+      products: formattedProducts,    // Will look like: "10 قطعة — الألوان: A:2,D:7,C:1"
+      total_quantity: body.pieces_count, // Keeps the raw integer for your total_quantity column
       status: 'pending'
     })
   });
@@ -64,7 +67,6 @@ export async function onRequestPost(context) {
   const rows = await insertRes.json();
   const row = rows[0];
 
-  // 3) Fire server-side Lead event via Meta CAPI
   if (env.META_PIXEL_ID && env.META_ACCESS_TOKEN) {
     try {
       await fetch(`https://graph.facebook.com/v19.0/${env.META_PIXEL_ID}/events?access_token=${env.META_ACCESS_TOKEN}`, {
@@ -87,7 +89,7 @@ export async function onRequestPost(context) {
                 currency: 'DZD', 
                 value: body.total_amount,
                 content_name: 'Pouch Bags', 
-                num_items: body.pieces_count // Fed direct count into Pixel
+                num_items: body.pieces_count // Still feeds the raw integer to Meta
             }
           }]
         })
