@@ -12,27 +12,22 @@ export async function onRequestPost(context) {
     return json({ success: false, error: 'invalid_json' }, 400);
   }
 
-  const required = ['bundle_size', 'bundle_price', 'order_qty', 'full_name', 'phone_number', 'wilaya_code', 'commune', 'delivery_method', 'lead_event_id'];
+  // 1) Update required fields to match your new frontend payload
+  const required = ['pieces_count', 'full_name', 'phone_number', 'wilaya_name', 'commune', 'delivery_method', 'lead_event_id'];
   for (const key of required) {
     if (body[key] === undefined || body[key] === null || body[key] === '') {
       return json({ success: false, error: 'missing_field', field: key }, 400);
     }
   }
 
-  // ---- 1) Parse Data, IPs, and User Agent ------------------
-  // Securely grab the client's actual IP and browser details from Cloudflare
   const ipAddress = request.headers.get('CF-Connecting-IP') || '';
   const userAgent = request.headers.get('User-Agent') || '';
   
-  // Split 'full_name' into first name and last name
   const nameParts = (body.full_name || '').trim().split(' ');
   const firstName = nameParts[0] || '';
   const lastName = nameParts.slice(1).join(' ') || '';
 
-  // Construct the product format (e.g., "باقة 20 قطعة x2")
-  const productString = `باقة ${body.bundle_size} قطعة x${body.order_qty}`;
-
-  // ---- 2) Insert into Supabase (myclicks) -------------------------------------
+  // 2) Insert directly into Supabase using body.pieces_count
   const insertRes = await fetch(`${env.SUPABASE_URL}/rest/v1/myclicks`, {
     method: 'POST',
     headers: {
@@ -53,9 +48,9 @@ export async function onRequestPost(context) {
       fbc: body.fbc,
       ip_address: ipAddress,
       user_agent: userAgent,
-      page: 'Pouch Bags Landing', // Identifies exactly where the lead came from
-      products: productString,
-      total_quantity: body.order_qty,
+      page: 'Pouch Bags Landing',
+      products: body.pieces_count,    // Replaced calculation with direct payload data
+      total_quantity: body.pieces_count, 
       status: 'pending'
     })
   });
@@ -69,7 +64,7 @@ export async function onRequestPost(context) {
   const rows = await insertRes.json();
   const row = rows[0];
 
-  // ---- 3) Fire server-side Lead event via Meta CAPI ----------------------------
+  // 3) Fire server-side Lead event via Meta CAPI
   if (env.META_PIXEL_ID && env.META_ACCESS_TOKEN) {
     try {
       await fetch(`https://graph.facebook.com/v19.0/${env.META_PIXEL_ID}/events?access_token=${env.META_ACCESS_TOKEN}`, {
@@ -91,14 +86,13 @@ export async function onRequestPost(context) {
             custom_data: { 
                 currency: 'DZD', 
                 value: body.total_amount,
-                content_name: productString,
-                num_items: body.order_qty
+                content_name: 'Pouch Bags', 
+                num_items: body.pieces_count // Fed direct count into Pixel
             }
           }]
         })
       });
     } catch (e) {
-      // Fail silently for Meta to ensure the user still gets a success message
     }
   }
 

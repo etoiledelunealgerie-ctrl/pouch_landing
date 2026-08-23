@@ -479,22 +479,21 @@
     var productTotal = (+$('pp-bundle-price').value) * (+$('pp-order-qty').value);
     var finalTotal = currentShipCost === null ? productTotal : productTotal + currentShipCost;
 
+    // Total number of pouch bags ordered (bundle pieces * quantity)
+    var totalPieces = (+document.getElementById('pp-bundle-size').value) * (+document.getElementById('pp-order-qty').value);
+
     var payload = {
-      bundle_size: +$('pp-bundle-size').value,
-      bundle_price: +$('pp-bundle-price').value,
-      order_qty: +$('pp-order-qty').value,
-      colors: $('pp-colors-summary').value, // مثال: "A:4,B:2" — الباقي (إذا كان) يوصل عشوائي
+      pieces_count: totalPieces,
       full_name: name.value.trim(),
       phone_number: phone.value.trim(),
-      wilaya_code: wil.value,
       wilaya_name: wt,
       commune: city.value,
-      full_address: $('pp-full-address').value,
-      delivery_method: $('pp-delivery-method').value,
-      lead_event_id: eventId,
+      full_address: document.getElementById('pp-full-address').value,
+      delivery_method: document.getElementById('pp-delivery-method').value,
       total_amount: finalTotal,
+      lead_event_id: eventId,
       fbp: getCookie('_fbp'), 
-      fbc: getCookie('_fbc')  
+      fbc: getCookie('_fbc')
     };
 
     if(window.fbq){ fbq('track', 'Lead', { content_name: 'bundle_' + payload.bundle_size, currency: 'DZD', value: payload.bundle_price }, { eventID: eventId }); }
