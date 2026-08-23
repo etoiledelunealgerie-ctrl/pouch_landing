@@ -4,14 +4,14 @@
   var fmt = function(n){ return n.toLocaleString('en-US'); };
 
   /* ==========================================================================
-     التسعير حسب الكمية (درجات):
+     التسعير حسب الكمية (درجتين فقط):
+     - 5 إلى 19 قطعة: 250 دج/قطعة
+     - 20 قطعة فأكثر: 220 دج/قطعة + توصيل مجاني
+     TODO(price): بدّلي الأرقام هنا إذا تغيّر السعر مستقبلاً.
   ========================================================================== */
   var PRICE_TIERS = [
-    { min:50, price:190, freeDelivery:true },
-    { min:30, price:200, freeDelivery:true },
     { min:20, price:220, freeDelivery:true },
-    { min:10, price:250, freeDelivery:false },
-    { min:0,  price:280, freeDelivery:false }
+    { min:0,  price:250, freeDelivery:false }
   ];
 
   function priceForPieces(pieces){
@@ -30,19 +30,20 @@
     };
   }
 
-  var BUNDLES = [5,10,20,30,40].map(function(n){ return makeBundle('b'+n, n); });
-  var CUSTOM_STEPS = [50,60,70,80,90,100];
-  var CUSTOM_BUNDLES = CUSTOM_STEPS.map(function(n){ return makeBundle('c'+n, n); });
+  /* الحد الأدنى 5 قطع — أكثر من 20 قطعة تتواصل معايا خاص بدل الموقع */
+  var MIN_PIECES = 5, MAX_PIECES = 20;
+  var BUNDLES = [];
+  for (var qn = MIN_PIECES; qn <= MAX_PIECES; qn++) { BUNDLES.push(makeBundle('b' + qn, qn)); }
 
-  var ALL_BUNDLES = BUNDLES.concat(CUSTOM_BUNDLES);
+  var ALL_BUNDLES = BUNDLES;
   function findBundle(k){ for(var i=0;i<ALL_BUNDLES.length;i++){ if(ALL_BUNDLES[i].k === k) return ALL_BUNDLES[i]; } return null; }
 
   /* ==========================================================================
      قوائم الصور الخاصة بك
   ========================================================================== */
   var THUMB_SETS = [
-    ['a1.jpeg', 'a2.jpeg'],
     ['b1.jpeg', 'b2.jpeg'],
+    ['a1.jpeg', 'a2.jpeg'],
     ['c1.jpeg', 'c2.jpeg', 'c3.jpeg'],
     ['d1.jpeg', 'd2.jpeg', 'd3.jpeg'],
     ['e1.jpeg', 'e2.jpeg'],
@@ -68,29 +69,16 @@
     
   ];
 
-  var state = { bundleKey:'b10', orderQty:1, activeThumbSet:0, activeThumbImg:0 };
+  var state = { bundleKey:'b10', orderQty:1, activeThumbSet:0, activeThumbImg:0, colorQueue:[] };
   var stageSwiped = false; // set true right after a swipe/arrow-click so the lightbox click doesn't also fire
 
-  /* ====== توليد بطاقات الباقة الرئيسية ====== */
-  var picksBox = $('pp-picks');
+  /* ====== توليد أزرار اختيار الكمية (5 إلى 20، صغار) ====== */
+  var qtyBox = $('pp-qty');
   BUNDLES.forEach(function(b){
-    var el = document.createElement('div');
-    el.className = 'pp-pick'; el.setAttribute('data-k', b.k); el.setAttribute('role','button'); el.setAttribute('tabindex','0');
-    el.innerHTML =
-      '<div class="tick"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.8 9 10 3.5"/></svg></div>' +
-      '<svg viewBox="0 0 48 48"><path d="M14 18v-4a10 10 0 0 1 20 0v4"/><rect x="9" y="18" width="30" height="22" rx="4"/></svg>' +
-      '<b>' + b.pieces + ' قطعة</b>' +
-      '<div class="pr">' + fmt(b.price) + ' دج</div>' +
-      '<span class="note">' + fmt(b.unitPrice) + ' دج/قطعة' + (b.freeDelivery ? ' · توصيل مجاني 🎉' : '') + '</span>';
-    picksBox.appendChild(el);
-  });
-
-  var moreBox = $('pp-bundles-more');
-  CUSTOM_BUNDLES.forEach(function(b){
-    var btn = document.createElement('button');
-    btn.type = 'button'; btn.setAttribute('data-k', b.k);
-    btn.textContent = b.pieces + ' قطعة — ' + fmt(b.price) + ' دج' + (b.freeDelivery ? ' 🚚 مجاني' : '');
-    moreBox.appendChild(btn);
+    var el = document.createElement('button');
+    el.type = 'button'; el.setAttribute('data-k', b.k);
+    el.innerHTML = b.pieces + (b.freeDelivery ? '<span class="tag">220 دج</span>' : '');
+    qtyBox.appendChild(el);
   });
 
   var miniBox = $('pp-mini');
@@ -100,11 +88,56 @@
     miniBox.appendChild(btn);
   });
 
+  /* ====== منطق طابور اختيار اللون (يُستعمل من صناديق الصور تحت) ====== */
+  function colorCounts(){
+    var counts = {};
+    state.colorQueue.forEach(function(c){ counts[c] = (counts[c] || 0) + 1; });
+    return counts;
+  }
+
+  /* يحدّث شكل صناديق الصور + نص الحالة + الحقل المخفي اللي يترسل مع الطلب */
+  function renderColors(bumpLetter){
+    var counts = colorCounts();
+    document.querySelectorAll('#pp-thumbs .pp-thumb-box').forEach(function(box){
+      var letter = box.getAttribute('data-c'), n = counts[letter] || 0;
+      box.classList.toggle('picked', n > 0);
+      var badge = box.querySelector('.pick');
+      if(badge) badge.textContent = n;
+      if(letter === bumpLetter){
+        box.classList.add('bump');
+        setTimeout(function(){ box.classList.remove('bump'); }, 320);
+      }
+    });
+    var b = findBundle(state.bundleKey);
+    var total = b ? b.pieces : 0, picked = state.colorQueue.length;
+    var statusEl = $('pp-colors-status');
+    if(statusEl){
+      statusEl.textContent = picked + ' من ' + total + ' قطعة اخترتي لونها' +
+        (picked < total ? ' — الباقي نبعتوه بتشكيلة عشوائية' : ' ✔');
+    }
+    $('pp-colors-summary').value = Object.keys(counts).map(function(k){ return k + ':' + counts[k]; }).join(',');
+  }
+
+  /* كل ضغطة على صندوق صورة = قطعة وحدة من هذا اللون تنضاف للطابور. إذا فاض
+     الطابور على الكمية المختارة، أول قطعة تدخلت (الأقدم) تخرج — مش شرط تكون
+     نفس اللون اللي ضغطت عليه هسا. هكذا تقدري تضغطي نفس الصندوق بزاف مرات. */
+  function pickColor(letter){
+    var b = findBundle(state.bundleKey); if(!b) return;
+    state.colorQueue.push(letter);
+    if(state.colorQueue.length > b.pieces){ state.colorQueue.shift(); }
+    renderColors(letter);
+  }
+
+  function trimColorsToQuota(){
+    var b = findBundle(state.bundleKey); if(!b) return;
+    while(state.colorQueue.length > b.pieces){ state.colorQueue.shift(); }
+    renderColors();
+  }
+
   function selectBundle(k){
     var b = findBundle(k); if(!b) return;
     state.bundleKey = k;
-    document.querySelectorAll('#pp-picks .pp-pick').forEach(function(c){ c.classList.toggle('on', c.getAttribute('data-k') === k); });
-    document.querySelectorAll('#pp-bundles-more button').forEach(function(c){ c.classList.toggle('on', c.getAttribute('data-k') === k); });
+    document.querySelectorAll('#pp-qty button').forEach(function(c){ c.classList.toggle('on', c.getAttribute('data-k') === k); });
     document.querySelectorAll('#pp-mini button').forEach(function(c){ c.classList.toggle('on', c.getAttribute('data-k') === k); });
     $('pp-bundle-size').value = b.pieces;
     $('pp-bundle-price').value = b.price;
@@ -112,14 +145,11 @@
     $('pp-bd-name').textContent = b.label;
     $('pp-tag-price').textContent = fmt(b.price) + ' دج';
     $('pp-tag-note').textContent = b.label + (b.freeDelivery ? ' · توصيل مجاني 🎉' : '');
+    trimColorsToQuota(); // ينقص الألوان الزايدة إذا نقصت الكمية، ويحدّث النص دايماً
     recalc();
   }
 
-  $('pp-picks').addEventListener('click', function(e){ var c = e.target.closest('.pp-pick'); if(c) selectBundle(c.getAttribute('data-k')); });
-  document.querySelectorAll('#pp-picks .pp-pick').forEach(function(c){
-    c.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); c.click(); } });
-  });
-  $('pp-bundles-more').addEventListener('click', function(e){ var b = e.target.closest('button'); if(b) selectBundle(b.getAttribute('data-k')); });
+  $('pp-qty').addEventListener('click', function(e){ var c = e.target.closest('button'); if(c) selectBundle(c.getAttribute('data-k')); });
   $('pp-mini').addEventListener('click', function(e){ var b = e.target.closest('button'); if(b) selectBundle(b.getAttribute('data-k')); });
 
   /* ====== الصورة الكبيرة + الصناديق المصغرة (التنظيم الجديد) ====== */
@@ -128,13 +158,15 @@
   THUMB_SETS.forEach(function(imgs, i){
     var box = document.createElement('div');
     box.className = 'pp-thumb-box'; box.setAttribute('data-i', i); box.setAttribute('role','button'); box.setAttribute('tabindex','0');
-    box.innerHTML = '<span class="num">' + (i+1) + '</span>';
-    
+    var letter = String.fromCharCode(65 + i); // A, B, C... حسب ترتيب THUMB_SETS
+    box.setAttribute('data-c', letter);
+    box.innerHTML = '<span class="num">' + letter + '</span><span class="pick">0</span>';
+
     // NEW RULE: Only inject the FIRST image into the small box to keep it clean.
     if(imgs.length > 0) {
       var img = document.createElement('img');
       img.src = imgs[0]; 
-      img.alt = 'صندوق ' + (i+1); 
+      img.alt = 'لون ' + letter; 
       img.loading = 'lazy'; 
       img.setAttribute('data-j', 0);
       box.appendChild(img);
@@ -172,10 +204,12 @@
   }
 
   // When a user clicks a small box, show the first image of that set on the big stage
+  // AND register one unit of that color in the pick queue.
   thumbsBox.addEventListener('click', function(e){
     var box = e.target.closest('.pp-thumb-box'); if(!box) return;
     var i = +box.getAttribute('data-i');
-    showStage(i, 0); 
+    showStage(i, 0);
+    pickColor(box.getAttribute('data-c'));
   });
 
   // Moves the CURRENT set forward/back by dir (+1 next, -1 prev), wrapping around.
@@ -449,6 +483,7 @@
       bundle_size: +$('pp-bundle-size').value,
       bundle_price: +$('pp-bundle-price').value,
       order_qty: +$('pp-order-qty').value,
+      colors: $('pp-colors-summary').value, // مثال: "A:4,B:2" — الباقي (إذا كان) يوصل عشوائي
       full_name: name.value.trim(),
       phone_number: phone.value.trim(),
       wilaya_code: wil.value,
