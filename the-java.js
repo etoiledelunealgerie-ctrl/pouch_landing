@@ -4,13 +4,13 @@
   var fmt = function(n){ return n.toLocaleString('en-US'); };
 
   /* ==========================================================================
-     التسعير حسب الكمية (درجتين فقط):
+     التسعير حسب الكمية (سعر واحد ثابت 250 دج/قطعة — التوصيل المجاني فقط هو اللي يتغيّر):
      - 5 إلى 19 قطعة: 250 دج/قطعة
-     - 20 قطعة فأكثر: 220 دج/قطعة + توصيل مجاني
+     - 20 قطعة فأكثر: 250 دج/قطعة + توصيل مجاني
      TODO(price): بدّلي الأرقام هنا إذا تغيّر السعر مستقبلاً.
   ========================================================================== */
   var PRICE_TIERS = [
-    { min:20, price:220, freeDelivery:true },
+    { min:20, price:250, freeDelivery:true },
     { min:0,  price:250, freeDelivery:false }
   ];
 
@@ -42,24 +42,24 @@
      قوائم الصور الخاصة بك
   ========================================================================== */
   var THUMB_SETS = [
-    ['b1.jpeg', 'b2.jpeg'],
-    ['a1.jpeg', 'a2.jpeg'],
-    ['c1.jpeg', 'c2.jpeg', 'c3.jpeg'],
-    ['d1.jpeg', 'd2.jpeg', 'd3.jpeg'],
-    ['e1.jpeg', 'e2.jpeg'],
-    ['f1.jpeg', 'f2.jpeg', 'f3.jpeg'],
-    ['g1.jpeg', 'g2.jpeg'],
-    ['h1.jpeg', 'h2.jpeg'],
-    ['i1.jpeg', 'i2.jpeg', 'i3.jpeg'],
-    ['j1.jpeg', 'j2.jpeg'],
-    ['k1.jpeg', 'k2.jpeg'],
-    ['L1.jpeg', 'L2.jpeg', 'L3.jpeg'],
-    ['m1.jpeg', 'm2.jpeg'],
-    ['n1.jpeg', 'n2.jpeg'],
-    ['o1.jpeg', 'o2.jpeg'],
-    ['p1.jpeg', 'p2.jpeg', 'p3.jpeg'],
-    ['q1.jpeg', 'q2.jpeg'],
-    ['r1.jpeg', 'r2.jpeg']
+    ['b1.jpeg', 'b2.jpeg'],            // A
+    ['a1.jpeg', 'a2.jpeg'],            // B
+    ['c1.jpeg', 'c2.jpeg', 'c3.jpeg'], // C
+    ['d1.jpeg', 'd2.jpeg', 'd3.jpeg'], // D
+    ['e1.jpeg', 'e2.jpeg'],            // E
+    ['f1.jpeg', 'f2.jpeg', 'f3.jpeg'], // F
+    ['g1.jpeg', 'g2.jpeg'],            // G
+    ['h1.jpeg', 'h2.jpeg'],            // H
+    ['i1.jpeg', 'i2.jpeg', 'i3.jpeg'], // I
+    ['j1.jpeg', 'j2.jpeg'],            // J
+    ['k1.jpeg', 'k2.jpeg'],            // K
+    ['L1.jpeg', 'L2.jpeg', 'L3.jpeg'], // L
+    ['m1.jpeg', 'm2.jpeg'],            // M
+    ['n1.jpeg', 'n2.jpeg'],            // N
+    ['o1.jpeg', 'o2.jpeg'],            // O
+    ['p1.jpeg', 'p2.jpeg', 'p3.jpeg'], // P
+    ['q1.jpeg', 'q2.jpeg'],            // Q
+    ['r1.jpeg', 'r2.jpeg']             // R
   ];
 
   var DETAIL_IMAGES = [
@@ -77,7 +77,7 @@
   BUNDLES.forEach(function(b){
     var el = document.createElement('button');
     el.type = 'button'; el.setAttribute('data-k', b.k);
-    el.innerHTML = b.pieces + (b.freeDelivery ? '<span class="tag">220 دج</span>' : '');
+    el.innerHTML = b.pieces + (b.freeDelivery ? '<span class="tag">توصيل مجاني</span>' : '');
     qtyBox.appendChild(el);
   });
 
