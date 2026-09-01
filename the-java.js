@@ -58,7 +58,7 @@
     ['n1.jpeg', 'n2.jpeg'],            // N
     ['o1.jpeg', 'o2.jpeg'],            // O
     ['p1.jpeg', 'p2.jpeg', 'p3.jpeg'], // P
-    ['q1.jpeg', 'q2.jpeg'],            // Q
+    [],            // Q
     ['r1.jpeg', 'r2.jpeg']             // R
   ];
 
@@ -156,6 +156,8 @@
   var stageImg = $('pp-stage-img'), dotsBox = $('pp-stage-dots'), thumbsBox = $('pp-thumbs');
 
   THUMB_SETS.forEach(function(imgs, i){
+    if (imgs.length === 0) return; // Add this line to skip empty arrays
+
     var box = document.createElement('div');
     box.className = 'pp-thumb-box'; box.setAttribute('data-i', i); box.setAttribute('role','button'); box.setAttribute('tabindex','0');
     var letter = String.fromCharCode(65 + i); // A, B, C... حسب ترتيب THUMB_SETS
