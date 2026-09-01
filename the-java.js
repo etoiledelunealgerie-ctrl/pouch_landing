@@ -156,7 +156,7 @@
   var stageImg = $('pp-stage-img'), dotsBox = $('pp-stage-dots'), thumbsBox = $('pp-thumbs');
 
   THUMB_SETS.forEach(function(imgs, i){
-    if (imgs.length === 0) return; // Add this line to skip empty arrays
+    if (imgs.length === 0) return; // this line to skip empty arrays
 
     var box = document.createElement('div');
     box.className = 'pp-thumb-box'; box.setAttribute('data-i', i); box.setAttribute('role','button'); box.setAttribute('tabindex','0');

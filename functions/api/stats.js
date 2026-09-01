@@ -2,22 +2,24 @@ export async function onRequestGet(context) {
   const { env } = context;
 
   try {
-    const res = await fetch(`${env.SUPABASE_URL}/rest/v1/myclicks?select=id`, {
-      method: 'GET',
+    // Call a custom database function (RPC) to calculate the sum
+    const res = await fetch(`${env.SUPABASE_URL}/rest/v1/rpc/get_total_pieces`, {
+      method: 'POST',
       headers: {
         'apikey': env.SUPABASE_SERVICE_KEY,
         'Authorization': `Bearer ${env.SUPABASE_SERVICE_KEY}`,
-        'Range-Unit': 'items',
-        'Range': '0-0', // We only want the metadata, not the actual rows
-        'Prefer': 'count=exact'
+        'Content-Type': 'application/json'
       }
     });
 
-    // Supabase returns the count in the Content-Range header (e.g., "0-0/42")
-    const range = res.headers.get('content-range');
-    const count = range ? parseInt(range.split('/')[1], 10) : 0;
+    if (!res.ok) {
+      throw new Error('Failed to fetch aggregate sum');
+    }
 
-    return new Response(JSON.stringify({ count: count }), {
+    // Supabase RPC returns the raw number (or null if the table is empty)
+    const totalPieces = await res.json();
+
+    return new Response(JSON.stringify({ count: totalPieces || 0 }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' }
     });
